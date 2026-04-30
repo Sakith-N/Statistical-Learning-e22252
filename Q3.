@@ -1,0 +1,120 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyN9hqVgArv/4txsInFj70vn"
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "source": [
+        "1.Sample Space (𝛀): 𝛀 = \\{0, 1, 2, 3\\}\n",
+        "\n",
+        "σ algebra ($\\mathfrak{F}$):\n",
+        "since this is a finite discrete case,there are $2^4$ = 16 possible subsets of outcomes\n",
+        "\n",
+        "Probability Measure (P):\n",
+        "P(X=3) = 1 - (0.50 + 0.30 + 0.15) = 1 - 0.95 = 0.05\n"
+      ],
+      "metadata": {
+        "id": "gBWuNTCVPWm5"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "2.X is a measurable function\n",
+        "For any outcome 𝜔 ∈ 𝛺,the random variable simply means outcome to its numerical value."
+      ],
+      "metadata": {
+        "id": "ghbCv7fVQ28J"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 11,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cUDb8s8zNNtV",
+        "outputId": "c26dcb1e-9cce-4f42-b889-bb3a168a85ce"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "3.\n",
+            "   Failures (x)  Probability P(X=x)\n",
+            "0             0                0.50\n",
+            "1             1                0.30\n",
+            "2             2                0.15\n",
+            "3             3                0.05\n",
+            "\n",
+            "4.\n",
+            "Expectation E[X]: 0.75\n",
+            "\n",
+            "5.\n",
+            "Variance Var(X): 0.7875\n",
+            "\n",
+            "6.\n",
+            "P(X >= 1) = 0.50\n",
+            "P(X >= 2) = 0.20\n"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "import pandas as pd\n",
+        "\n",
+        "x = np.array([0,1,2,3])\n",
+        "p = np.array([0.50,0.30,0.15,0.05])\n",
+        "\n",
+        "# Create a DataFrame for a clean table view\n",
+        "df = pd.DataFrame({'Failures (x)': x,'Probability P(X=x)': p})\n",
+        "print(f\"3.\")\n",
+        "print(df)\n",
+        "\n",
+        "print(f\"\\n4.\")\n",
+        "Ex = np.sum(x * p)\n",
+        "print(f\"Expectation E[X]: {Ex:.2f}\")\n",
+        "\n",
+        "print(f\"\\n5.\")\n",
+        "var= np.sum((x**2)*p) - (Ex**2)\n",
+        "print(f\"Variance Var(X): {var:.4f}\")\n",
+        "\n",
+        "# probability of at least one is failure\n",
+        "Px1 = p[1] + p[2] + p[3]\n",
+        "\n",
+        "# probability of two or more failures\n",
+        "Px2 = 1 - p[0]-p[1]\n",
+        "\n",
+        "print(f\"\\n6.\")\n",
+        "print(f\"P(X >= 1) = {Px1:.2f}\")\n",
+        "print(f\"P(X >= 2) = {Px2:.2f}\")"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "E[x] represents the average number of transformer failures the district should expect per day. expectation is the total failures divided by total days will be approximately 2.3.\n",
+        "\n",
+        "Variance measures the uncertainty of the failures. A higher variance would indicate that the number of failures fluctuates wildly from the average, while this value suggests how much the actual daily failures typically deviate from the mean of 2.3."
+      ],
+      "metadata": {
+        "id": "V8_gIalZX9w3"
+      }
+    }
+  ]
+}
