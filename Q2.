@@ -1,0 +1,74 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNNcKJvz7+SCDRGD7m6FXiw",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Sakith-N/Statistical-Learning-e22252/blob/asignment-3/Q2.\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Step 1: Linear Transformation and Orthogonalization\n",
+        "\n",
+        "To find the distribution of $X$ given $Y$, we define a smart linear transformation that completely uncorrelates $X$ from $Y$. A new random variable $W$ defined by:$W = X - A Y$\n",
+        "\n",
+        "$${Cov}(W, Y) = \\text{Cov}(X - AY, Y) = \\text{Cov}(X, Y) - A\\text{Var}(Y) = \\Sigma_{XY} - A\\Sigma_{YY}$$Setting $\\text{Cov}(W, Y) = 0$ yields:$$\\Sigma_{XY} - A\\Sigma_{YY} = 0 \\implies A = \\Sigma_{XY}\\Sigma_{YY}^{-1}$$Thus, our new transformed variable is:$$W = X - \\Sigma_{XY}\\Sigma_{YY}^{-1}Y$$"
+      ],
+      "metadata": {
+        "id": "vdsxFSPzrvol"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Step 2: Distribution Properties of the Transformed Vector\n",
+        "\n",
+        "Mean of $W$:$$E[W] = E[X] - \\Sigma_{XY}\\Sigma_{YY}^{-1}E[Y] = \\mu_X - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\mu_Y$$Variance of $W$:$$\\text{Var}(W) = \\text{Var}(X - \\Sigma_{XY}\\Sigma_{YY}^{-1}Y)$$$$\\text{Var}(W) = \\text{Var}(X) - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\text{Cov}(Y, X) - \\text{Cov}(X, Y)\\Sigma_{YY}^{-1}\\Sigma_{YX} + \\Sigma_{XY}\\Sigma_{YY}^{-1}\\text{Var}(Y)\\Sigma_{YY}^{-1}\\Sigma_{YX}$$Substituting the block covariance definitions:\n",
+        "  $$\\text{Var}(W) = \\Sigma_{XX} - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\Sigma_{YX} - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\Sigma_{YX} + \\Sigma_{XY}\\Sigma_{YY}^{-1}\\Sigma_{YY}\\Sigma_{YY}^{-1}\\Sigma_{YX}$$$$\\text{Var}(W) = \\Sigma_{XX} - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\Sigma_{YX} = S_{XX}$$Since $\\text{Cov}(W, Y) = 0$ b"
+      ],
+      "metadata": {
+        "id": "N_OTNgO5rzqh"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Because $W$ and $Y$ are independent, conditioning $W$ on $Y=y$ does not change its distribution:$$(W \\mid Y = y) \\sim \\mathcal{N}(E[W], \\text{Var}(W))$$Now we substitute our definition $W = X - \\Sigma_{XY}\\Sigma_{YY}^{-1}Y$ back into this expression:$$\\left(X - \\Sigma_{XY}\\Sigma_{YY}^{-1}Y \\;\\middle|\\; Y = y\\right) \\sim \\mathcal{N}\\left(\\mu_X - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\mu_Y, \\; S_{XX}\\right)$$Since $Y$ is fixed to the deterministic value $y$ inside the conditioning bracket, we can treat it as a constant vector and move it to the right side of the distribution parameters:$$(X \\mid Y = y) \\sim \\mathcal{N}\\left(\\mu_X - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\mu_Y + \\Sigma_{XY}\\Sigma_{YY}^{-1}y, \\; S_{XX}\\right)$$Factoring out the terms yields the conditional mean $\\mu^*$:\n",
+        "  $$\\mu^* = \\mu_X + \\Sigma_{XY}\\Sigma_{YY}^{-1}(y - \\mu_Y)$$The variance parameter remains unaltered by the shift in the mean:$$\\text{Var}(X \\mid Y = y) = S_{XX} = \\Sigma_{XX} - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\Sigma_{YX}$$"
+      ],
+      "metadata": {
+        "id": "DbvYZZWkr5nk"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "  $$f_{X|Y}(x|y) = \\frac{1}{\\sqrt{(2\\pi)^{n}|S_{XX}|}} \\exp\\left(-\\frac{1}{2}(x-\\mu^{*})^{T}S_{XX}^{-1}(x-\\mu^{*})\\right)$$where:$S_{XX} = \\Sigma_{XX} - \\Sigma_{XY}\\Sigma_{YY}^{-1}\\Sigma_{YX}$   $\\mu^* = \\mu_X + \\Sigma_{XY}\\Sigma_{YY}^{-1}(y - \\mu_Y)$   This completes the mathematical proof."
+      ],
+      "metadata": {
+        "id": "-FK4jDCtr9VC"
+      }
+    }
+  ]
+}
